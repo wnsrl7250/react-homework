@@ -1,11 +1,13 @@
-export const INITIAL_CELLS = Array(9).fill(null);
-
 export const enum PLAYER {
   ONE = '😎',
   TWO = '🤢',
 }
 
-export type Cells = (PLAYER | null)[];
+export type Cell = PLAYER | null;
+
+export type Cells = Cell[];
+
+export const INITIAL_CELLS: Cells = Array(9).fill(null);
 
 export const getNextPlayer = (order: number) => {
   return order % 2 === 0 ? PLAYER.ONE : PLAYER.TWO;

@@ -6,11 +6,7 @@ interface StatusProps {
 }
 
 function Status({ message, onReGame }: StatusProps) {
-  const isComplete = !message.includes('Next Player');
-
-  const handleReGame = () => {
-    onReGame?.();
-  };
+  const isComplete = !message.includes('NEXT PLAYER');
 
   return (
     <div className={tm('flex justify-between w-full px-5')}>
@@ -24,7 +20,7 @@ function Status({ message, onReGame }: StatusProps) {
             'text-xs font-semibold',
             'hover:bg-slate-800/10'
           )}
-          onClick={handleReGame}
+          onClick={onReGame}
         >
           다시 ㄱ?
         </button>

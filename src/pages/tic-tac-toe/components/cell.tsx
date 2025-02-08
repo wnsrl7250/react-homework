@@ -9,24 +9,23 @@ function Cell({ children, className = '', onPlay, ...restProps }: CellProps) {
 
   const handlePlay = () => {
     if (hasChildren) return;
-
-    onPlay?.(); // onPlay가 정의되어 있을 때만 호출
+    onPlay?.();
   };
 
   return (
     <button
       type="button"
+      onClick={handlePlay}
       aria-disabled={hasChildren}
       className={tm(
         'cursor-pointer',
-        'size-20 border rounded-md',
+        'size-16 border rounded-md',
         'text-2xl font-semibold',
         'border-black/50',
         { 'hover:border-black hover:bg-slate-100/60': !hasChildren },
-        { 'cursor-not-allowed': hasChildren },
+        { 'cursor-not-allowed bg-black/10': hasChildren },
         className
       )}
-      onClick={handlePlay}
       {...restProps}
     >
       {children}

@@ -1,49 +1,28 @@
-import { useState } from 'react';
 import Grid from './grid';
 import Status from './status';
-import {
-  type Cells,
-  getNextPlayer,
-  getStatusMessage,
-  getWinner,
-  INITIAL_CELLS,
-} from '../constants';
+import type { Cells, Winner } from '../constants';
 import { tm } from '@/utils/tw-merge';
 
-function Board() {
-  const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
+interface BoardProps {
+  cells: Cells;
+  winner: Winner;
+  statusMessage: string;
+  onPlayGame?: (cellIndex: number) => void;
+  onReGame?: () => void;
+}
 
-  const [order, setOrder] = useState<number>(0);
-
-  const nextPlayer = getNextPlayer(order);
-
-  const winner = getWinner(cells);
-
-  const statusMessage = getStatusMessage(nextPlayer, winner, cells);
-
-  const handlePlay = (index: number) => {
-    if (winner) {
-      alert(`게임오버 WINNER! ${winner.player}`);
-      return;
-    }
-
-    const nextOrder = order + 1;
-    setOrder(nextOrder);
-
-    const nextCells = cells.map((cell, i) => (index !== i ? cell : nextPlayer));
-    setCells(nextCells);
-  };
-
-  const handleReGame = () => {
-    setCells(INITIAL_CELLS);
-    setOrder(0);
-  };
-
+function Board({
+  cells,
+  winner,
+  statusMessage,
+  onPlayGame,
+  onReGame,
+}: BoardProps) {
   return (
     <section className={tm('flex flex-col space-y-2 items-center', 'w-60')}>
       <h3 className="sr-only">게임 보드</h3>
-      <Status message={statusMessage} onReGame={handleReGame} />
-      <Grid cells={cells} winner={winner} onPlay={handlePlay} />
+      <Status message={statusMessage} onReGame={onReGame} />
+      <Grid cells={cells} winner={winner} onPlay={onPlayGame} />
     </section>
   );
 }
