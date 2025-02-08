@@ -1,9 +1,9 @@
-function Status() {
-  return (
-    <button type="button">
-      <h3>Status</h3>
-    </button>
-  );
+interface StatusProps {
+  message: string;
+}
+
+function Status({ message }: StatusProps) {
+  return <div>{message}</div>;
 }
 
 export default Status;

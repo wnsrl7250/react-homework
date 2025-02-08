@@ -1,29 +1,13 @@
-import { useState } from 'react';
 import Cell from './cell';
-import { type Cells, getWinner, INITIAL_CELLS, PLAYER } from '../constants';
+import { Cells, Winner } from '../constants';
 
-function Grid() {
-  const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
+interface GridProps {
+  cells: Cells;
+  winner: Winner;
+  onPlay: (cellIndex: number) => void;
+}
 
-  const [order, setOrder] = useState<number>(0);
-
-  const nextPlayer = order % 2 === 0 ? PLAYER.ONE : PLAYER.TWO;
-
-  const winner = getWinner(cells);
-
-  const handlePlay = (index: number) => {
-    if (winner) {
-      console.log(`게임오버 ${winner.player}`);
-      return;
-    }
-
-    const nextOrder = order + 1;
-    setOrder(nextOrder);
-
-    const nextCells = cells.map((cell, i) => (index !== i ? cell : nextPlayer));
-    setCells(nextCells);
-  };
-
+function Grid({ cells, winner, onPlay }: GridProps) {
   return (
     <div className="grid grid-rows-3 grid-cols-3 gap-3">
       {cells.map((cell, index) => {
@@ -32,7 +16,7 @@ function Grid() {
         if (winner) {
           const [x, y, z] = winner.condition;
           if (index === x || index === y || index === z) {
-            winnerClasses = 'outline2 outline-amber-500 bg-amber-500/30';
+            winnerClasses = 'outline2 outline-sky-5s00 bg-sky-500/30';
           }
         }
 
@@ -40,7 +24,7 @@ function Grid() {
           <Cell
             key={index}
             className={winnerClasses}
-            onPlay={() => handlePlay(index)}
+            onPlay={() => onPlay(index)}
           >
             {cell}
           </Cell>

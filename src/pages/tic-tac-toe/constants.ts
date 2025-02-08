@@ -7,6 +7,10 @@ export const enum PLAYER {
 
 export type Cells = (PLAYER | null)[];
 
+export const getNextPlayer = (order: number) => {
+  return order % 2 === 0 ? PLAYER.ONE : PLAYER.TWO;
+};
+
 const WINNER_CONDITIONS = [
   [0, 1, 2],
   [3, 4, 5],
@@ -18,7 +22,7 @@ const WINNER_CONDITIONS = [
   [2, 4, 6],
 ];
 
-type Winner = {
+export type Winner = {
   player: PLAYER;
   condition: [number, number, number];
 } | null;
@@ -39,4 +43,24 @@ export const getWinner = (cells: Cells) => {
   }
 
   return winner as Winner;
+};
+
+export const getStatusMessage = (
+  nextPlayer: PLAYER,
+  winner: Winner,
+  cells: Cells
+) => {
+  let statusMessage = `넥스트 플레이어 ${nextPlayer}`;
+
+  if (winner) {
+    statusMessage = `WINNER! ${winner.player}`;
+  }
+
+  const isDraw = !winner && cells.every(Boolean);
+
+  if (isDraw) {
+    statusMessage = 'DRAW!';
+  }
+
+  return statusMessage;
 };
