@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import Cell from './cell';
-import { type Cells, INITIAL_CELLS, PLAYER } from '../constants';
+import { type Cells, getWinner, INITIAL_CELLS, PLAYER } from '../constants';
 
 function Grid() {
-  // 게임 보드 셀
   const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
 
-  // 게임 순서
   const [order, setOrder] = useState<number>(0);
 
-  // 다음 플레이어
   const nextPlayer = order % 2 === 0 ? PLAYER.ONE : PLAYER.TWO;
 
-  // 게임 상태 업데이트
+  const winner = getWinner(cells);
+
   const handlePlay = (index: number) => {
+    if (winner) {
+      console.log(`게임오버 ${winner.player}`);
+      return;
+    }
+
     const nextOrder = order + 1;
     setOrder(nextOrder);
 
@@ -24,8 +27,21 @@ function Grid() {
   return (
     <div className="grid grid-rows-3 grid-cols-3 gap-3">
       {cells.map((cell, index) => {
+        let winnerClasses = '';
+
+        if (winner) {
+          const [x, y, z] = winner.condition;
+          if (index === x || index === y || index === z) {
+            winnerClasses = 'outline2 outline-amber-500 bg-amber-500/30';
+          }
+        }
+
         return (
-          <Cell key={index} onPlay={() => handlePlay(index)}>
+          <Cell
+            key={index}
+            className={winnerClasses}
+            onPlay={() => handlePlay(index)}
+          >
             {cell}
           </Cell>
         );
