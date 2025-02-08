@@ -8,6 +8,7 @@ import {
   getWinner,
   INITIAL_CELLS,
 } from '../constants';
+import { tm } from '@/utils/tw-merge';
 
 function Board() {
   const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
@@ -33,10 +34,15 @@ function Board() {
     setCells(nextCells);
   };
 
+  const handleReGame = () => {
+    setCells(INITIAL_CELLS);
+    setOrder(0);
+  };
+
   return (
-    <section className="flex flex-col space-y-2 items-center w-60">
+    <section className={tm('flex flex-col space-y-2 items-center', 'w-60')}>
       <h3 className="sr-only">게임 보드</h3>
-      <Status message={statusMessage} />
+      <Status message={statusMessage} onReGame={handleReGame} />
       <Grid cells={cells} winner={winner} onPlay={handlePlay} />
     </section>
   );

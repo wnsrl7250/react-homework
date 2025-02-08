@@ -50,7 +50,7 @@ export const getStatusMessage = (
   winner: Winner,
   cells: Cells
 ) => {
-  let statusMessage = `넥스트 플레이어 ${nextPlayer}`;
+  let statusMessage = `NEXT PLAYER ${nextPlayer}`;
 
   if (winner) {
     statusMessage = `WINNER! ${winner.player}`;
