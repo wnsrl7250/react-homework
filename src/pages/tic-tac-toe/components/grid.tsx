@@ -4,7 +4,7 @@ import { type Cells, INITIAL_CELLS, PLAYER } from '../constants';
 
 function Grid() {
   // 게임 보드 셀
-  const [cells] = useState<Cells>(INITIAL_CELLS);
+  const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
 
   // 게임 순서
   const [order, setOrder] = useState<number>(0);
@@ -16,7 +16,9 @@ function Grid() {
   const handlePlay = (index: number) => {
     const nextOrder = order + 1;
     setOrder(nextOrder);
-    console.log(index, 'click', nextPlayer);
+
+    const nextCells = cells.map((cell, i) => (index !== i ? cell : nextPlayer));
+    setCells(nextCells);
   };
 
   return (
@@ -24,7 +26,7 @@ function Grid() {
       {cells.map((cell, index) => {
         return (
           <Cell key={index} onPlay={() => handlePlay(index)}>
-            {index}
+            {cell}
           </Cell>
         );
       })}
